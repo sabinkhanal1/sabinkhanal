@@ -1,9 +1,62 @@
-<html>
-<head>
-<title>kaflemanish.com.np</title>
-</head>
-<body>
-<A href= "file:///C:/Users/khana.DESKTOP-LHH6HIH/Desktop/Adress.html"/>Manish kafle</A>
-</audio>
-</body>
-</html>
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+export default function BlogApp() {
+  const [posts, setPosts] = useState([]);
+  const [title, setTitle] = useState("");
+  const [file, setFile] = useState(null);
+
+  const handleUpload = () => {
+    if (!title || !file) return;
+
+    const newPost = {
+      id: Date.now(),
+      title,
+      file: URL.createObjectURL(file),
+      type: file.type.startsWith("video") ? "video" : "image",
+    };
+
+    setPosts([newPost, ...posts]);
+    setTitle("");
+    setFile(null);
+  };
+
+  return (
+    <div className="p-6 max-w-3xl mx-auto">
+      <h1 className="text-3xl font-bold mb-4">My Personal Blog</h1>
+
+      <div className="mb-6 space-y-2">
+        <Input
+          placeholder="Post title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <Input
+          type="file"
+          accept="image/*,video/*"
+          onChange={(e) => setFile(e.target.files[0])}
+        />
+        <Button onClick={handleUpload}>Upload Post</Button>
+      </div>
+
+      <div className="grid gap-4">
+        {posts.map((post) => (
+          <Card key={post.id} className="rounded-2xl shadow">
+            <CardContent className="p-4">
+              <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
+              {post.type === "image" ? (
+                <img src={post.file} alt="" className="rounded-xl" />
+              ) : (
+                <video controls className="rounded-xl w-full">
+                  <source src={post.file} />
+                </video>
+              )}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
