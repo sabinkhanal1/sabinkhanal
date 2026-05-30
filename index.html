@@ -1,62 +1,588 @@
-import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sabin Khanal — CV</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #161616;
+    --card: #1e1e1e;
+    --accent: #c9a84c;
+    --accent2: #e8c97a;
+    --text: #f0ece4;
+    --muted: #888;
+    --border: #2a2a2a;
+  }
 
-export default function BlogApp() {
-  const [posts, setPosts] = useState([]);
-  const [title, setTitle] = useState("");
-  const [file, setFile] = useState(null);
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  const handleUpload = () => {
-    if (!title || !file) return;
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-    const newPost = {
-      id: Date.now(),
-      title,
-      file: URL.createObjectURL(file),
-      type: file.type.startsWith("video") ? "video" : "image",
-    };
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
 
-    setPosts([newPost, ...posts]);
-    setTitle("");
-    setFile(null);
-  };
+  /* Hero */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 10vw;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
 
-  return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-4">My Personal Blog</h1>
+  .hero::after {
+    content: 'SK';
+    position: absolute;
+    right: -2vw;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(200px, 25vw, 380px);
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(201,168,76,0.08);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
 
-      <div className="mb-6 space-y-2">
-        <Input
-          placeholder="Post title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <Input
-          type="file"
-          accept="image/*,video/*"
-          onChange={(e) => setFile(e.target.files[0])}
-        />
-        <Button onClick={handleUpload}>Upload Post</Button>
-      </div>
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
 
-      <div className="grid gap-4">
-        {posts.map((post) => (
-          <Card key={post.id} className="rounded-2xl shadow">
-            <CardContent className="p-4">
-              <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
-              {post.type === "image" ? (
-                <img src={post.file} alt="" className="rounded-xl" />
-              ) : (
-                <video controls className="rounded-xl w-full">
-                  <source src={post.file} />
-                </video>
-              )}
-            </CardContent>
-          </Card>
-        ))}
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 8vw, 110px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero-name span {
+    color: var(--accent);
+  }
+
+  .hero-tagline {
+    font-size: clamp(14px, 1.5vw, 18px);
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero-contacts {
+    margin-top: 48px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  .contact-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+
+  .contact-chip:hover { color: var(--accent); }
+
+  .contact-chip .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* Divider line */
+  .gold-line {
+    width: 60px;
+    height: 2px;
+    background: var(--accent);
+    margin: 16px 0 40px;
+  }
+
+  /* Main layout */
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 10vw;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    padding-right: 60px;
+    border-right: 1px solid var(--border);
+  }
+
+  /* Content */
+  .content {
+    padding-left: 60px;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 60px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.7s ease forwards;
+  }
+
+  .section:nth-child(1) { animation-delay: 0.1s; }
+  .section:nth-child(2) { animation-delay: 0.2s; }
+  .section:nth-child(3) { animation-delay: 0.3s; }
+  .section:nth-child(4) { animation-delay: 0.4s; }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 40px;
+  }
+
+  /* Info list */
+  .info-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .info-list li {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .info-list .key {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .info-list .val {
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  /* Skills pills */
+  .skills-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .skill-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .skill-item .skill-name {
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .skill-bar-track {
+    height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .skill-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    transform-origin: left;
+    transform: scaleX(0);
+    animation: barGrow 1s ease forwards 1s;
+  }
+
+  @keyframes barGrow { to { transform: scaleX(1); } }
+
+  /* Languages */
+  .lang-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .lang-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .lang-tag::before {
+    content: '';
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* Experience cards */
+  .exp-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    transition: border-color 0.3s, transform 0.2s;
+  }
+
+  .exp-card:hover {
+    border-left-color: var(--accent2);
+    transform: translateX(4px);
+  }
+
+  .exp-card .duration {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .exp-card .role {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .exp-card .org {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* Education table */
+  .edu-row {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 16px;
+    align-items: start;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .edu-row:last-child { border-bottom: none; }
+
+  .edu-year {
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    padding-top: 3px;
+  }
+
+  .edu-title {
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .edu-school {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .edu-gpa {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    text-align: right;
+  }
+
+  .edu-gpa span {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* Competencies */
+  .comp-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .comp-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+    transition: color 0.2s;
+  }
+
+  .comp-list li:hover { color: var(--text); }
+
+  .comp-list li::before {
+    content: '→';
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* Passport chip */
+  .passport-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 40px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--border);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; padding: 48px 6vw; }
+    .sidebar { padding-right: 0; border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 48px; margin-bottom: 48px; }
+    .content { padding-left: 0; }
+    .hero { padding: 60px 6vw; }
+    .hero::after { display: none; }
+    .edu-row { grid-template-columns: 50px 1fr auto; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-label">Curriculum Vitae</p>
+  <h1 class="hero-name">Sabin<br><span>Khanal</span></h1>
+  <p class="hero-tagline">Aspiring professional from Nepal, skilled in hospitality, communication, and administration — seeking performance-driven growth.</p>
+  <div class="hero-contacts">
+    <div class="contact-chip"><div class="dot"></div> +977-9869081545</div>
+    <div class="contact-chip"><div class="dot"></div> sabinkhanal809@gmail.com</div>
+    <div class="contact-chip"><div class="dot"></div> Gunadi, Myagde 1, Tanahun, Nepal</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="section">
+      <p class="section-label">Personal</p>
+      <ul class="info-list">
+        <li><span class="key">Date of Birth</span><span class="val">29th January 2004</span></li>
+        <li><span class="key">Gender</span><span class="val">Male</span></li>
+        <li><span class="key">Marital Status</span><span class="val">Unmarried</span></li>
+        <li><span class="key">Religion</span><span class="val">Hindu</span></li>
+        <li><span class="key">Nationality</span><span class="val">Nepali</span></li>
+        <li><span class="key">Height / Weight</span><span class="val">5'4 ft &nbsp;·&nbsp; 55 kg</span></li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <p class="section-label">Passport</p>
+      <div class="passport-box">
+        <ul class="info-list">
+          <li><span class="key">Number</span><span class="val">PA1263322</span></li>
+          <li><span class="key">Issued</span><span class="val">05 Feb 2023</span></li>
+          <li><span class="key">Expiry</span><span class="val">04 Feb 2033</span></li>
+        </ul>
       </div>
     </div>
-  );
-}
+
+    <div class="section">
+      <p class="section-label">Languages</p>
+      <div class="lang-list">
+        <div class="lang-tag">Nepali</div>
+        <div class="lang-tag">English</div>
+        <div class="lang-tag">Hindi</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="section-label">Skills</p>
+      <div class="skills-grid">
+        <div class="skill-item">
+          <div class="skill-name">Communication</div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:90%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name">Hospitality / Waiter</div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name">Presentation</div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:75%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name">Computer Basics</div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:70%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name">Mobile Repair</div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:60%"></div></div>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <div class="section">
+      <p class="section-label">Objective</p>
+      <p style="font-size:15px; color:var(--muted); line-height:1.8; max-width:520px;">
+        Seeking a challenging career that utilises abilities developed through education, with the opportunity for professional growth based on performance.
+      </p>
+    </div>
+
+    <div class="section">
+      <p class="section-label">Education</p>
+
+      <div class="edu-row">
+        <div class="edu-year">2022</div>
+        <div>
+          <div class="edu-title">+2 (Higher Secondary)</div>
+          <div class="edu-school">Satyawati Secondary School, Tanahun · NEB</div>
+        </div>
+        <div class="edu-gpa">2.81<span>GPA</span></div>
+      </div>
+
+      <div class="edu-row">
+        <div class="edu-year">2020</div>
+        <div>
+          <div class="edu-title">SEE (Secondary)</div>
+          <div class="edu-school">Satyawati Secondary School, Tanahun · NEB</div>
+        </div>
+        <div class="edu-gpa">3.36<span>GPA</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="section-label">Training & Experience</p>
+
+      <div class="exp-card">
+        <div class="duration">3 Months</div>
+        <div class="role">Internship — Admission Officer Assistant</div>
+        <div class="org">Time Academy Consultancy, Tanahun</div>
+      </div>
+
+      <div class="exp-card">
+        <div class="duration">1 Year</div>
+        <div class="role">Waiter Training</div>
+        <div class="org">SASAA INN HOTEL, Damauli, Nepal</div>
+      </div>
+
+      <div class="exp-card">
+        <div class="duration">1 Month</div>
+        <div class="role">Mobile Repair Training</div>
+        <div class="org">SOS Vocational Training Center, Pokhara, Kaski, Nepal</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="section-label">Competencies</p>
+      <ul class="comp-list">
+        <li>Excellent verbal and communication skills in English, Hindi &amp; Nepali</li>
+        <li>Sub-Engineering studies from class 9–12</li>
+        <li>Good presentation skills and basic computer knowledge</li>
+        <li>Strong knowledge in hospitality and waiter service</li>
+        <li>Ability to work effectively in groups and independently</li>
+        <li>Ability to perform under pressure and within time constraints</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <p class="section-label">Declaration</p>
+      <p style="font-size:13px; color:var(--muted); line-height:1.8; font-style:italic;">
+        I hereby declare that all information presented above is correct and true to the best of my knowledge and belief.
+      </p>
+      <div style="margin-top:32px; display:flex; align-items:center; gap:16px;">
+        <div style="width:80px; height:1px; background:var(--accent);"></div>
+        <span style="font-family:'Playfair Display',serif; font-size:15px; color:var(--text);">Sabin Khanal</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>Sabin Khanal &nbsp;·&nbsp; Curriculum Vitae &nbsp;·&nbsp; Nepal</footer>
+
+</body>
+</html>
