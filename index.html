@@ -3,586 +3,1205 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sabin Khanal — CV</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Sabin Khanal — Professional CV</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
   :root {
-    --bg: #0d0d0d;
-    --surface: #161616;
-    --card: #1e1e1e;
-    --accent: #c9a84c;
-    --accent2: #e8c97a;
-    --text: #f0ece4;
-    --muted: #888;
-    --border: #2a2a2a;
+    --navy: #0a1628;
+    --navy2: #0f2040;
+    --navy3: #162d52;
+    --gold: #c8a96e;
+    --gold2: #e2c98a;
+    --gold-pale: rgba(200,169,110,0.12);
+    --cream: #f5f0e8;
+    --cream2: #ede7d9;
+    --white: #ffffff;
+    --text-dark: #1a1a2e;
+    --text-mid: #4a5568;
+    --text-light: #718096;
+    --border: rgba(200,169,110,0.25);
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
 
   body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
+    font-family: 'Outfit', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
     min-height: 100vh;
-    overflow-x: hidden;
+    font-size: 15px;
+    line-height: 1.6;
   }
 
-  /* Noise texture overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.4;
+  /* ===== SIDEBAR ===== */
+  .layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    min-height: 100vh;
   }
 
-  /* Hero */
-  .hero {
-    position: relative;
-    min-height: 100vh;
+  .sidebar {
+    background: var(--navy);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 80px 10vw;
+    scrollbar-width: thin;
+    scrollbar-color: var(--navy3) var(--navy);
+  }
+
+  /* Photo area */
+  .photo-block {
+    position: relative;
+    background: var(--navy2);
+    padding: 48px 36px 36px;
+    text-align: center;
     border-bottom: 1px solid var(--border);
+  }
+
+  .photo-block::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold), var(--gold2), var(--gold));
+  }
+
+  .photo-wrap {
+    position: relative;
+    width: 148px;
+    height: 148px;
+    margin: 0 auto 20px;
+  }
+
+  .photo-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), transparent 60%, var(--gold2));
+    z-index: 0;
+  }
+
+  .photo-circle {
+    position: relative;
+    z-index: 1;
+    width: 148px;
+    height: 148px;
+    border-radius: 50%;
+    background: var(--navy3);
+    overflow: hidden;
+    border: 3px solid var(--navy2);
+  }
+
+  .photo-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* SVG avatar placeholder */
+  .avatar-svg {
+    width: 148px;
+    height: 148px;
+    border-radius: 50%;
+    background: var(--navy3);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
     overflow: hidden;
   }
 
-  .hero::after {
-    content: 'SK';
+  .sidebar-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.02em;
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+
+  .sidebar-title {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 400;
+  }
+
+  /* Sidebar sections */
+  .sb-section {
+    padding: 28px 36px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    animation: fadeIn 0.6s ease both;
+  }
+
+  .sb-section:nth-child(2) { animation-delay: 0.1s; }
+  .sb-section:nth-child(3) { animation-delay: 0.2s; }
+  .sb-section:nth-child(4) { animation-delay: 0.3s; }
+  .sb-section:nth-child(5) { animation-delay: 0.4s; }
+
+  .sb-head {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sb-head::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .contact-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+    color: rgba(255,255,255,0.75);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .contact-row:last-child { margin-bottom: 0; }
+
+  .c-icon {
+    width: 28px;
+    height: 28px;
+    background: var(--gold-pale);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .c-icon svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--gold);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Personal details */
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 8px;
+  }
+
+  .detail-item .d-label {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 3px;
+    opacity: 0.8;
+  }
+
+  .detail-item .d-val {
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.82);
+  }
+
+  /* Language bars */
+  .lang-item {
+    margin-bottom: 14px;
+  }
+
+  .lang-item:last-child { margin-bottom: 0; }
+
+  .lang-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .lang-name {
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .lang-level {
+    font-size: 11px;
+    color: var(--gold);
+    opacity: 0.7;
+  }
+
+  .lang-bar {
+    height: 2px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .lang-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold2));
+    border-radius: 2px;
+    transform-origin: left;
+    transform: scaleX(0);
+    animation: barIn 1.2s cubic-bezier(0.4,0,0.2,1) forwards;
+    animation-delay: 0.8s;
+  }
+
+  @keyframes barIn { to { transform: scaleX(1); } }
+
+  /* Passport */
+  .passport-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .pp-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 12px;
+  }
+
+  .pp-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .pp-row:first-child { padding-top: 0; }
+
+  .pp-key { color: var(--gold); opacity: 0.7; }
+  .pp-val { color: rgba(255,255,255,0.82); font-weight: 500; }
+
+  /* ===== MAIN CONTENT ===== */
+  .main {
+    background: var(--cream);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Top bar */
+  .top-bar {
+    background: var(--white);
+    border-bottom: 1px solid var(--cream2);
+    padding: 40px 56px 36px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    animation: slideDown 0.6s ease both;
+  }
+
+  .top-bar::after {
+    content: 'CV';
     position: absolute;
-    right: -2vw;
-    top: 50%;
-    transform: translateY(-50%);
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(200px, 25vw, 380px);
-    font-weight: 900;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(201,168,76,0.08);
+    right: 40px;
+    top: -10px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 160px;
+    font-weight: 700;
+    color: var(--cream2);
+    letter-spacing: -0.05em;
     line-height: 1;
     pointer-events: none;
     user-select: none;
   }
 
-  .hero-label {
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 24px;
-    opacity: 0;
-    animation: fadeUp 0.8s ease forwards 0.2s;
-  }
-
-  .hero-name {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(52px, 8vw, 110px);
-    font-weight: 900;
-    line-height: 0.95;
+  .top-bar-left h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
     letter-spacing: -0.02em;
-    margin-bottom: 32px;
-    opacity: 0;
-    animation: fadeUp 0.8s ease forwards 0.4s;
+    margin-bottom: 10px;
   }
 
-  .hero-name span {
-    color: var(--accent);
+  .top-bar-left h1 em {
+    font-style: italic;
+    color: var(--gold);
   }
 
-  .hero-tagline {
-    font-size: clamp(14px, 1.5vw, 18px);
-    color: var(--muted);
+  .objective-text {
+    font-size: 14px;
+    color: var(--text-mid);
     max-width: 480px;
-    line-height: 1.7;
-    opacity: 0;
-    animation: fadeUp 0.8s ease forwards 0.6s;
+    line-height: 1.8;
+    font-weight: 300;
   }
 
-  .hero-contacts {
-    margin-top: 48px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    opacity: 0;
-    animation: fadeUp 0.8s ease forwards 0.8s;
+  .top-bar-right {
+    position: relative;
+    z-index: 1;
   }
 
-  .contact-chip {
+  .status-badge {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 13px;
-    color: var(--muted);
-    transition: color 0.2s;
+    gap: 8px;
+    background: var(--navy);
+    color: var(--gold);
+    padding: 10px 18px;
+    border-radius: 50px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    white-space: nowrap;
   }
 
-  .contact-chip:hover { color: var(--accent); }
-
-  .contact-chip .dot {
-    width: 6px; height: 6px;
+  .status-dot {
+    width: 7px; height: 7px;
     border-radius: 50%;
-    background: var(--accent);
+    background: #4ade80;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.85); }
+  }
+
+  /* Content sections */
+  .content-body {
+    padding: 48px 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 52px;
+  }
+
+  .section {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .section:nth-child(1) { animation-delay: 0.3s; }
+  .section:nth-child(2) { animation-delay: 0.45s; }
+  .section:nth-child(3) { animation-delay: 0.6s; }
+  .section:nth-child(4) { animation-delay: 0.75s; }
+
+  .sec-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .sec-icon {
+    width: 38px;
+    height: 38px;
+    background: var(--navy);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
   }
 
-  /* Divider line */
-  .gold-line {
-    width: 60px;
-    height: 2px;
-    background: var(--accent);
-    margin: 16px 0 40px;
+  .sec-icon svg {
+    width: 18px; height: 18px;
+    stroke: var(--gold);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
-  /* Main layout */
-  .main {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 0;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 80px 10vw;
+  .sec-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: -0.01em;
   }
 
-  /* Sidebar */
-  .sidebar {
-    padding-right: 60px;
-    border-right: 1px solid var(--border);
-  }
-
-  /* Content */
-  .content {
-    padding-left: 60px;
-  }
-
-  /* Section */
-  .section {
-    margin-bottom: 60px;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 0.7s ease forwards;
-  }
-
-  .section:nth-child(1) { animation-delay: 0.1s; }
-  .section:nth-child(2) { animation-delay: 0.2s; }
-  .section:nth-child(3) { animation-delay: 0.3s; }
-  .section:nth-child(4) { animation-delay: 0.4s; }
-
-  .section-label {
-    font-size: 10px;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .section-label::after {
-    content: '';
+  .sec-line {
     flex: 1;
     height: 1px;
-    background: var(--border);
-    max-width: 40px;
+    background: var(--cream2);
+    margin-left: 4px;
   }
 
-  /* Info list */
-  .info-list {
-    list-style: none;
+  /* Education cards */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .edu-card {
+    background: var(--white);
+    border: 1px solid var(--cream2);
+    border-radius: 12px;
+    padding: 24px 26px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .edu-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--navy), var(--navy3));
+  }
+
+  .edu-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(10,22,40,0.1);
+  }
+
+  .edu-card .year-badge {
+    display: inline-block;
+    background: var(--gold-pale);
+    color: var(--gold);
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+
+  .edu-card .level {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .edu-card .school {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .edu-card .gpa-row {
     display: flex;
-    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    margin-top: auto;
+  }
+
+  .edu-card .gpa-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+  }
+
+  .edu-card .gpa-label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    padding-bottom: 6px;
+  }
+
+  .board-chip {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    background: var(--navy);
+    color: var(--gold);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 32px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--navy), rgba(10,22,40,0.1));
+  }
+
+  .tl-item {
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .tl-item:last-child { margin-bottom: 0; }
+
+  .tl-dot {
+    position: absolute;
+    left: -28px;
+    top: 14px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 2px solid var(--navy);
+    z-index: 1;
+  }
+
+  .tl-dot::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  .tl-card {
+    background: var(--white);
+    border: 1px solid var(--cream2);
+    border-radius: 12px;
+    padding: 20px 24px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .tl-card:hover {
+    transform: translateX(4px);
+    border-color: var(--gold);
+  }
+
+  .tl-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .tl-role {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .tl-dur {
+    font-size: 11px;
+    color: var(--gold);
+    background: var(--gold-pale);
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .tl-org {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-bottom: 10px;
+  }
+
+  .tl-desc {
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.7;
+  }
+
+  /* Skills */
+  .skills-wrap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 14px;
   }
 
-  .info-list li {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+  .skill-card {
+    background: var(--white);
+    border: 1px solid var(--cream2);
+    border-radius: 10px;
+    padding: 18px 20px;
+    transition: border-color 0.2s, transform 0.2s;
   }
 
-  .info-list .key {
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
+  .skill-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-2px);
   }
 
-  .info-list .val {
-    font-size: 14px;
-    color: var(--text);
-    font-weight: 400;
-  }
-
-  /* Skills pills */
-  .skills-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .skill-item {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .skill-item .skill-name {
+  .sk-name {
     font-size: 13px;
-    color: var(--text);
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 10px;
   }
 
-  .skill-bar-track {
-    height: 2px;
-    background: var(--border);
-    border-radius: 2px;
+  .sk-bar-wrap {
+    height: 4px;
+    background: var(--cream2);
+    border-radius: 4px;
     overflow: hidden;
-  }
-
-  .skill-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    border-radius: 2px;
-    transform-origin: left;
-    transform: scaleX(0);
-    animation: barGrow 1s ease forwards 1s;
-  }
-
-  @keyframes barGrow { to { transform: scaleX(1); } }
-
-  /* Languages */
-  .lang-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .lang-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--text);
-  }
-
-  .lang-tag::before {
-    content: '';
-    width: 4px; height: 4px;
-    border-radius: 50%;
-    background: var(--accent);
-  }
-
-  /* Experience cards */
-  .exp-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
-    padding: 24px 28px;
-    margin-bottom: 16px;
-    transition: border-color 0.3s, transform 0.2s;
-  }
-
-  .exp-card:hover {
-    border-left-color: var(--accent2);
-    transform: translateX(4px);
-  }
-
-  .exp-card .duration {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
     margin-bottom: 8px;
   }
 
-  .exp-card .role {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 4px;
+  .sk-bar {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--navy), var(--navy3));
+    transform-origin: left;
+    transform: scaleX(0);
+    animation: barIn 1.2s cubic-bezier(0.4,0,0.2,1) forwards;
+    animation-delay: 1s;
   }
 
-  .exp-card .org {
-    font-size: 13px;
-    color: var(--muted);
-  }
-
-  /* Education table */
-  .edu-row {
-    display: grid;
-    grid-template-columns: 60px 1fr auto;
-    gap: 16px;
-    align-items: start;
-    padding: 20px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .edu-row:last-child { border-bottom: none; }
-
-  .edu-year {
+  .sk-pct {
     font-size: 11px;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-    padding-top: 3px;
-  }
-
-  .edu-title {
-    font-size: 15px;
-    color: var(--text);
-    font-weight: 500;
-    margin-bottom: 4px;
-  }
-
-  .edu-school {
-    font-size: 12px;
-    color: var(--muted);
-  }
-
-  .edu-gpa {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--accent);
+    color: var(--text-light);
     text-align: right;
   }
 
-  .edu-gpa span {
-    display: block;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 10px;
-    color: var(--muted);
-    font-weight: 300;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-
   /* Competencies */
-  .comp-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
+  .comp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
 
-  .comp-list li {
+  .comp-item {
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.5;
-    transition: color 0.2s;
+    background: var(--white);
+    border: 1px solid var(--cream2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    transition: border-color 0.2s;
   }
 
-  .comp-list li:hover { color: var(--text); }
+  .comp-item:hover { border-color: var(--navy); }
 
-  .comp-list li::before {
-    content: '→';
-    color: var(--accent);
+  .comp-bullet {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
     flex-shrink: 0;
-    margin-top: 1px;
+    margin-top: 7px;
   }
 
-  /* Passport chip */
-  .passport-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 20px;
+  .comp-text {
+    font-size: 13.5px;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+
+  /* Declaration */
+  .decl-box {
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 32px 36px;
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    align-items: flex-start;
+    gap: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .decl-box::before {
+    content: '"';
+    position: absolute;
+    right: 24px;
+    top: -20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 160px;
+    color: rgba(200,169,110,0.08);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .decl-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--gold-pale);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .decl-icon svg {
+    width: 20px; height: 20px;
+    stroke: var(--gold);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .decl-text {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.8;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+  }
+
+  .decl-sig {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .sig-line { width: 60px; height: 1px; background: var(--gold); opacity: 0.5; }
+
+  .sig-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--gold);
+    font-style: italic;
   }
 
   /* Footer */
-  footer {
-    text-align: center;
-    padding: 40px;
-    border-top: 1px solid var(--border);
+  .site-footer {
+    background: var(--navy);
+    padding: 20px 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-left {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.1em;
+  }
+
+  .footer-right {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .f-chip {
     font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--border);
+    color: var(--gold);
+    background: var(--gold-pale);
+    border: 1px solid var(--border);
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.08em;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
   }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
+    from { opacity: 0; transform: translateY(16px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  @media (max-width: 768px) {
-    .main { grid-template-columns: 1fr; padding: 48px 6vw; }
-    .sidebar { padding-right: 0; border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 48px; margin-bottom: 48px; }
-    .content { padding-left: 0; }
-    .hero { padding: 60px 6vw; }
-    .hero::after { display: none; }
-    .edu-row { grid-template-columns: 50px 1fr auto; gap: 10px; }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Print */
+  @media print {
+    .layout { grid-template-columns: 260px 1fr; }
+    .sidebar { position: static; height: auto; }
   }
 </style>
 </head>
 <body>
 
-<!-- HERO -->
-<section class="hero">
-  <p class="hero-label">Curriculum Vitae</p>
-  <h1 class="hero-name">Sabin<br><span>Khanal</span></h1>
-  <p class="hero-tagline">Aspiring professional from Nepal, skilled in hospitality, communication, and administration — seeking performance-driven growth.</p>
-  <div class="hero-contacts">
-    <div class="contact-chip"><div class="dot"></div> +977-9869081545</div>
-    <div class="contact-chip"><div class="dot"></div> sabinkhanal809@gmail.com</div>
-    <div class="contact-chip"><div class="dot"></div> Gunadi, Myagde 1, Tanahun, Nepal</div>
-  </div>
-</section>
+<div class="layout">
 
-<!-- MAIN -->
-<div class="main">
-
-  <!-- SIDEBAR -->
+  <!-- ===== SIDEBAR ===== -->
   <aside class="sidebar">
 
-    <div class="section">
-      <p class="section-label">Personal</p>
-      <ul class="info-list">
-        <li><span class="key">Date of Birth</span><span class="val">29th January 2004</span></li>
-        <li><span class="key">Gender</span><span class="val">Male</span></li>
-        <li><span class="key">Marital Status</span><span class="val">Unmarried</span></li>
-        <li><span class="key">Religion</span><span class="val">Hindu</span></li>
-        <li><span class="key">Nationality</span><span class="val">Nepali</span></li>
-        <li><span class="key">Height / Weight</span><span class="val">5'4 ft &nbsp;·&nbsp; 55 kg</span></li>
-      </ul>
+    <!-- Photo block -->
+    <div class="photo-block">
+      <div class="photo-wrap">
+        <div class="photo-circle">
+          <!-- Professional avatar SVG -->
+          <svg viewBox="0 0 148 148" xmlns="http://www.w3.org/2000/svg" style="width:148px;height:148px;display:block;">
+            <rect width="148" height="148" fill="#162d52"/>
+            <!-- Body/shirt -->
+            <ellipse cx="74" cy="148" rx="54" ry="34" fill="#0f2040"/>
+            <path d="M30 148 Q42 118 74 114 Q106 118 118 148Z" fill="#1a3a6b"/>
+            <!-- Tie -->
+            <path d="M70 114 L74 138 L78 114 L76 120 L74 130 L72 120Z" fill="#c8a96e" opacity="0.8"/>
+            <!-- Collar -->
+            <path d="M62 113 L74 128 L86 113 L80 117 L74 115 L68 117Z" fill="#e8e8e8"/>
+            <!-- Head -->
+            <ellipse cx="74" cy="72" rx="28" ry="32" fill="#d4956a"/>
+            <!-- Ears -->
+            <ellipse cx="46" cy="73" rx="5" ry="7" fill="#d4956a"/>
+            <ellipse cx="102" cy="73" rx="5" ry="7" fill="#d4956a"/>
+            <!-- Hair -->
+            <path d="M46 58 Q48 38 74 36 Q100 38 102 58 Q98 48 74 46 Q50 48 46 58Z" fill="#1a1a1a"/>
+            <ellipse cx="74" cy="44" rx="22" ry="10" fill="#1a1a1a"/>
+            <!-- Eyes -->
+            <ellipse cx="63" cy="72" rx="4.5" ry="5" fill="white"/>
+            <ellipse cx="85" cy="72" rx="4.5" ry="5" fill="white"/>
+            <circle cx="64" cy="73" r="2.5" fill="#1a1a1a"/>
+            <circle cx="86" cy="73" r="2.5" fill="#1a1a1a"/>
+            <circle cx="65" cy="72" r="1" fill="white"/>
+            <circle cx="87" cy="72" r="1" fill="white"/>
+            <!-- Eyebrows -->
+            <path d="M58 65 Q63 62 68 65" stroke="#1a1a1a" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M80 65 Q85 62 90 65" stroke="#1a1a1a" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- Nose -->
+            <path d="M72 76 Q70 82 67 84 Q71 86 74 85 Q77 86 81 84 Q78 82 76 76Z" fill="#c07a50" opacity="0.7"/>
+            <!-- Smile -->
+            <path d="M63 92 Q74 100 85 92" stroke="#8b4513" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <!-- Cheeks -->
+            <ellipse cx="57" cy="86" rx="7" ry="4" fill="#e08060" opacity="0.3"/>
+            <ellipse cx="91" cy="86" rx="7" ry="4" fill="#e08060" opacity="0.3"/>
+          </svg>
+        </div>
+      </div>
+      <p class="sidebar-name">Sabin Khanal</p>
+      <p class="sidebar-title">Professional CV</p>
     </div>
 
-    <div class="section">
-      <p class="section-label">Passport</p>
-      <div class="passport-box">
-        <ul class="info-list">
-          <li><span class="key">Number</span><span class="val">PA1263322</span></li>
-          <li><span class="key">Issued</span><span class="val">05 Feb 2023</span></li>
-          <li><span class="key">Expiry</span><span class="val">04 Feb 2033</span></li>
-        </ul>
+    <!-- Contact -->
+    <div class="sb-section">
+      <p class="sb-head">Contact</p>
+      <div class="contact-row">
+        <div class="c-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.0 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div>+977-9869081545</div>
+      </div>
+      <div class="contact-row">
+        <div class="c-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>sabinkhanal809@gmail.com</div>
+      </div>
+      <div class="contact-row">
+        <div class="c-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>Gunadi, Myagde 1,<br>Tanahun, Nepal</div>
       </div>
     </div>
 
-    <div class="section">
-      <p class="section-label">Languages</p>
-      <div class="lang-list">
-        <div class="lang-tag">Nepali</div>
-        <div class="lang-tag">English</div>
-        <div class="lang-tag">Hindi</div>
+    <!-- Personal -->
+    <div class="sb-section">
+      <p class="sb-head">Personal</p>
+      <div class="detail-grid">
+        <div class="detail-item">
+          <p class="d-label">Birth Date</p>
+          <p class="d-val">29 Jan 2004</p>
+        </div>
+        <div class="detail-item">
+          <p class="d-label">Gender</p>
+          <p class="d-val">Male</p>
+        </div>
+        <div class="detail-item">
+          <p class="d-label">Nationality</p>
+          <p class="d-val">Nepali</p>
+        </div>
+        <div class="detail-item">
+          <p class="d-label">Religion</p>
+          <p class="d-val">Hindu</p>
+        </div>
+        <div class="detail-item">
+          <p class="d-label">Height</p>
+          <p class="d-val">5'4 ft</p>
+        </div>
+        <div class="detail-item">
+          <p class="d-label">Weight</p>
+          <p class="d-val">55 kg</p>
+        </div>
+        <div class="detail-item">
+          <p class="d-label">Marital Status</p>
+          <p class="d-val">Unmarried</p>
+        </div>
+        <div class="detail-item">
+          <p class="d-label">Father's Name</p>
+          <p class="d-val">Asbin Khanal</p>
+        </div>
       </div>
     </div>
 
-    <div class="section">
-      <p class="section-label">Skills</p>
-      <div class="skills-grid">
-        <div class="skill-item">
-          <div class="skill-name">Communication</div>
-          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:90%"></div></div>
+    <!-- Languages -->
+    <div class="sb-section">
+      <p class="sb-head">Languages</p>
+      <div class="lang-item">
+        <div class="lang-top"><span class="lang-name">Nepali</span><span class="lang-level">Native</span></div>
+        <div class="lang-bar"><div class="lang-fill" style="width:100%"></div></div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-top"><span class="lang-name">English</span><span class="lang-level">Fluent</span></div>
+        <div class="lang-bar"><div class="lang-fill" style="width:82%"></div></div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-top"><span class="lang-name">Hindi</span><span class="lang-level">Fluent</span></div>
+        <div class="lang-bar"><div class="lang-fill" style="width:78%"></div></div>
+      </div>
+    </div>
+
+    <!-- Passport -->
+    <div class="sb-section">
+      <p class="sb-head">Passport</p>
+      <div class="passport-card">
+        <div class="pp-row">
+          <span class="pp-key">Number</span>
+          <span class="pp-val">PA1263322</span>
         </div>
-        <div class="skill-item">
-          <div class="skill-name">Hospitality / Waiter</div>
-          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%"></div></div>
+        <div class="pp-row">
+          <span class="pp-key">Issued</span>
+          <span class="pp-val">05 Feb 2023</span>
         </div>
-        <div class="skill-item">
-          <div class="skill-name">Presentation</div>
-          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:75%"></div></div>
+        <div class="pp-row">
+          <span class="pp-key">Expiry</span>
+          <span class="pp-val">04 Feb 2033</span>
         </div>
-        <div class="skill-item">
-          <div class="skill-name">Computer Basics</div>
-          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:70%"></div></div>
-        </div>
-        <div class="skill-item">
-          <div class="skill-name">Mobile Repair</div>
-          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:60%"></div></div>
+        <div class="pp-row">
+          <span class="pp-key">Nationality</span>
+          <span class="pp-val">🇳🇵 Nepali</span>
         </div>
       </div>
     </div>
 
   </aside>
 
-  <!-- CONTENT -->
-  <div class="content">
+  <!-- ===== MAIN ===== -->
+  <main class="main">
 
-    <div class="section">
-      <p class="section-label">Objective</p>
-      <p style="font-size:15px; color:var(--muted); line-height:1.8; max-width:520px;">
-        Seeking a challenging career that utilises abilities developed through education, with the opportunity for professional growth based on performance.
-      </p>
-    </div>
-
-    <div class="section">
-      <p class="section-label">Education</p>
-
-      <div class="edu-row">
-        <div class="edu-year">2022</div>
-        <div>
-          <div class="edu-title">+2 (Higher Secondary)</div>
-          <div class="edu-school">Satyawati Secondary School, Tanahun · NEB</div>
+    <!-- Top bar -->
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <h1>Sabin <em>Khanal</em></h1>
+        <p class="objective-text">Seeking a challenging career that utilises abilities developed through education, with the opportunity for professional growth based on performance.</p>
+      </div>
+      <div class="top-bar-right">
+        <div class="status-badge">
+          <div class="status-dot"></div>
+          Available for Work
         </div>
-        <div class="edu-gpa">2.81<span>GPA</span></div>
       </div>
+    </div>
 
-      <div class="edu-row">
-        <div class="edu-year">2020</div>
-        <div>
-          <div class="edu-title">SEE (Secondary)</div>
-          <div class="edu-school">Satyawati Secondary School, Tanahun · NEB</div>
+    <!-- Content -->
+    <div class="content-body">
+
+      <!-- Education -->
+      <div class="section">
+        <div class="sec-header">
+          <div class="sec-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          </div>
+          <h2 class="sec-title">Education</h2>
+          <div class="sec-line"></div>
         </div>
-        <div class="edu-gpa">3.36<span>GPA</span></div>
+        <div class="edu-grid">
+          <div class="edu-card">
+            <span class="year-badge">2022 A.D.</span>
+            <p class="level">Higher Secondary (+2)</p>
+            <p class="school">Satyawati Secondary School<br>Tanahun, Nepal</p>
+            <div class="gpa-row">
+              <span class="gpa-num">2.81</span>
+              <span class="gpa-label">GPA</span>
+            </div>
+            <span class="board-chip">NEB</span>
+          </div>
+          <div class="edu-card">
+            <span class="year-badge">2020 A.D.</span>
+            <p class="level">Secondary Education (SEE)</p>
+            <p class="school">Satyawati Secondary School<br>Tanahun, Nepal</p>
+            <div class="gpa-row">
+              <span class="gpa-num">3.36</span>
+              <span class="gpa-label">GPA</span>
+            </div>
+            <span class="board-chip">NEB</span>
+          </div>
+        </div>
       </div>
+
+      <!-- Training & Experience -->
+      <div class="section">
+        <div class="sec-header">
+          <div class="sec-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+          </div>
+          <h2 class="sec-title">Training & Experience</h2>
+          <div class="sec-line"></div>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-top">
+                <p class="tl-role">Admission Officer Assistant (Intern)</p>
+                <span class="tl-dur">3 Months</span>
+              </div>
+              <p class="tl-org">Time Academy Consultancy, Tanahun</p>
+              <p class="tl-desc">Assisted in student admission processes, handled inquiries, maintained records, and supported day-to-day administrative tasks at the consultancy office.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-top">
+                <p class="tl-role">Waiter Training</p>
+                <span class="tl-dur">1 Year</span>
+              </div>
+              <p class="tl-org">SASAA INN HOTEL, Damauli, Nepal</p>
+              <p class="tl-desc">Completed a comprehensive one-year waiter training programme covering service standards, customer relations, food & beverage handling, and hospitality best practices.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-top">
+                <p class="tl-role">Mobile Repair Training</p>
+                <span class="tl-dur">1 Month</span>
+              </div>
+              <p class="tl-org">SOS Vocational Training Center, Pokhara, Kaski, Nepal</p>
+              <p class="tl-desc">Gained hands-on technical skills in mobile device diagnostics, hardware repair, and component replacement during a structured vocational programme.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skills -->
+      <div class="section">
+        <div class="sec-header">
+          <div class="sec-icon">
+            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h2 class="sec-title">Core Skills</h2>
+          <div class="sec-line"></div>
+        </div>
+        <div class="skills-wrap">
+          <div class="skill-card">
+            <p class="sk-name">Communication (English)</p>
+            <div class="sk-bar-wrap"><div class="sk-bar" style="width:90%"></div></div>
+            <p class="sk-pct">Excellent</p>
+          </div>
+          <div class="skill-card">
+            <p class="sk-name">Hospitality & Service</p>
+            <div class="sk-bar-wrap"><div class="sk-bar" style="width:85%"></div></div>
+            <p class="sk-pct">Advanced</p>
+          </div>
+          <div class="skill-card">
+            <p class="sk-name">Presentation Skills</p>
+            <div class="sk-bar-wrap"><div class="sk-bar" style="width:75%"></div></div>
+            <p class="sk-pct">Good</p>
+          </div>
+          <div class="skill-card">
+            <p class="sk-name">Computer Basics</p>
+            <div class="sk-bar-wrap"><div class="sk-bar" style="width:70%"></div></div>
+            <p class="sk-pct">Intermediate</p>
+          </div>
+          <div class="skill-card">
+            <p class="sk-name">Mobile Repair</p>
+            <div class="sk-bar-wrap"><div class="sk-bar" style="width:60%"></div></div>
+            <p class="sk-pct">Intermediate</p>
+          </div>
+          <div class="skill-card">
+            <p class="sk-name">Sub-Engineering Studies</p>
+            <div class="sk-bar-wrap"><div class="sk-bar" style="width:65%"></div></div>
+            <p class="sk-pct">Good</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Competencies -->
+      <div class="section">
+        <div class="sec-header">
+          <div class="sec-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h2 class="sec-title">Competencies</h2>
+          <div class="sec-line"></div>
+        </div>
+        <div class="comp-grid">
+          <div class="comp-item">
+            <div class="comp-bullet"></div>
+            <p class="comp-text">Excellent verbal and communication skills in English, Hindi & Nepali</p>
+          </div>
+          <div class="comp-item">
+            <div class="comp-bullet"></div>
+            <p class="comp-text">Study of Sub-Engineering curriculum from class 9–12</p>
+          </div>
+          <div class="comp-item">
+            <div class="comp-bullet"></div>
+            <p class="comp-text">Good presentation skills and foundational computer knowledge</p>
+          </div>
+          <div class="comp-item">
+            <div class="comp-bullet"></div>
+            <p class="comp-text">Strong knowledge and practical experience in waiter service</p>
+          </div>
+          <div class="comp-item">
+            <div class="comp-bullet"></div>
+            <p class="comp-text">Ability to work effectively both in teams and independently</p>
+          </div>
+          <div class="comp-item">
+            <div class="comp-bullet"></div>
+            <p class="comp-text">Capable of performing under pressure and meeting time constraints</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Declaration -->
+      <div class="section">
+        <div class="decl-box">
+          <div class="decl-icon">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <div>
+            <p class="decl-text">I hereby declare that all the information presented above is correct and true to the best of my knowledge and belief.</p>
+            <div class="decl-sig">
+              <div class="sig-line"></div>
+              <p class="sig-name">Sabin Khanal</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <div class="section">
-      <p class="section-label">Training & Experience</p>
-
-      <div class="exp-card">
-        <div class="duration">3 Months</div>
-        <div class="role">Internship — Admission Officer Assistant</div>
-        <div class="org">Time Academy Consultancy, Tanahun</div>
+    <!-- Footer -->
+    <footer class="site-footer">
+      <p class="footer-left">© 2024 Sabin Khanal &nbsp;·&nbsp; Curriculum Vitae</p>
+      <div class="footer-right">
+        <span class="f-chip">Nepali</span>
+        <span class="f-chip">English</span>
+        <span class="f-chip">Hindi</span>
       </div>
+    </footer>
 
-      <div class="exp-card">
-        <div class="duration">1 Year</div>
-        <div class="role">Waiter Training</div>
-        <div class="org">SASAA INN HOTEL, Damauli, Nepal</div>
-      </div>
-
-      <div class="exp-card">
-        <div class="duration">1 Month</div>
-        <div class="role">Mobile Repair Training</div>
-        <div class="org">SOS Vocational Training Center, Pokhara, Kaski, Nepal</div>
-      </div>
-    </div>
-
-    <div class="section">
-      <p class="section-label">Competencies</p>
-      <ul class="comp-list">
-        <li>Excellent verbal and communication skills in English, Hindi &amp; Nepali</li>
-        <li>Sub-Engineering studies from class 9–12</li>
-        <li>Good presentation skills and basic computer knowledge</li>
-        <li>Strong knowledge in hospitality and waiter service</li>
-        <li>Ability to work effectively in groups and independently</li>
-        <li>Ability to perform under pressure and within time constraints</li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <p class="section-label">Declaration</p>
-      <p style="font-size:13px; color:var(--muted); line-height:1.8; font-style:italic;">
-        I hereby declare that all information presented above is correct and true to the best of my knowledge and belief.
-      </p>
-      <div style="margin-top:32px; display:flex; align-items:center; gap:16px;">
-        <div style="width:80px; height:1px; background:var(--accent);"></div>
-        <span style="font-family:'Playfair Display',serif; font-size:15px; color:var(--text);">Sabin Khanal</span>
-      </div>
-    </div>
-
-  </div>
+  </main>
 </div>
-
-<footer>Sabin Khanal &nbsp;·&nbsp; Curriculum Vitae &nbsp;·&nbsp; Nepal</footer>
 
 </body>
 </html>
