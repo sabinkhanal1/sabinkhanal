@@ -1,9 +1,10 @@
 /* ===== EDIT YOUR DATA HERE ===== */
 const D = {
   name: "Sabin Khanal",
-  photo: "https://khanalsabin1.com.np/22179878-5225-4d14-a872-c9f1f3936a4b.png",
+  photo: "images/profile.png",
+  cover: "images/cover.jpg",
   bio: "Web design and development student at UCLan Cyprus. Born in Tanahun, Nepal. Building websites from Larnaca.",
-  email: "your-email@example.com", // <- put your public email here
+  email: "sabinkhanal809@gmail.com", // <- put your public email here
   github: "https://github.com/sabinkhanal1",
   facebook: "https://facebook.com/sabin.khanal.737080",
   skills: ["HTML", "CSS", "JavaScript", "Git & GitHub", "Responsive design", "Customer service"],
@@ -14,17 +15,13 @@ const D = {
     ["2020", "Secondary Education (SEE)", "Satyawati Secondary School, Tanahun"]
   ],
   work: [
-    ["16 months", "Admission Officer Assistant (intern)", "Time Academy Consultancy, Tanahun. Student admissions, enquiries and records."],
-    ["12 months", "Waiter training", "SASAA INN Hotel, Damauli. Service standards and customer relations."],
+    ["20 months", "Admission Officer Assistant (intern)", "Time Academy Consultancy, Tanahun. Student admissions, enquiries and records."],
+    ["18 months", "Waiter training", "SASAA INN Hotel, Damauli. Service standards and customer relations."],
     ["1 month", "Mobile repair training", "SOS Vocational Training Center, Pokhara."]
   ],
   projects: [
     { id: "Pushpa", title: "Pushpa", text: "A gift website I built for someone I love.", live: "https://pushpagiftfromlover.khanalsabin1.com.np", color: "linear-gradient(135deg,#d3123a,#ff8aa5)" },
     { id: "university", title: "University website", text: "A university website built with HTML and CSS.", color: "linear-gradient(135deg,#0f2a5c,#3d6fd1)" },
-    { id: "healthservice", title: "Health service website", text: "A clean website for a health service.", color: "linear-gradient(135deg,#0b7a75,#58d1b9)" },
-    { id: "sabinkhanal", title: "First CV site", text: "My first online CV. This portfolio replaces it.", color: "linear-gradient(135deg,#3b3b58,#8d8dc7)" },
-    { id: "furba", title: "furba", text: "Work in progress. Details coming soon.", color: "linear-gradient(135deg,#9a5b00,#f2b84b)" }
-  ],
   // Stories: add { text, bg } slides. Add img: "photo.jpg" to show a picture.
   stories: [
     { title: "Tanahun to Larnaca", bg: "linear-gradient(160deg,#0f2a5c,#d3123a)", slides: ["I grew up in Tanahun, Nepal.", "Now I study web design and development in Larnaca, Cyprus."] },
