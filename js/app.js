@@ -19,10 +19,6 @@ const D = {
     ["18 months", "Waiter training", "SASAA INN Hotel, Damauli. Service standards and customer relations."],
     ["1 month", "Mobile repair training", "SOS Vocational Training Center, Pokhara."],
   ],
-  projects: [
-    { id: "Pushpa", title: "Pushpa", text: "A gift website I built for someone I love.", live: "https://pushpagiftfromlover.khanalsabin1.com.np", color: "linear-gradient(135deg,#d3123a,#ff8aa5)" },
-    { id: "university", title: "University website", text: "A university website built with HTML and CSS.", color: "linear-gradient(135deg,#0f2a5c,#3d6fd1)" },
-    ],
   // Stories: add { text, bg } slides. Add img: "photo.jpg" to show a picture.
   stories: [
     { title: "Tanahun to Larnaca", bg: "linear-gradient(160deg,#0f2a5c,#d3123a)", slides: ["I grew up in Tanahun, Nepal.", "Now I study web design and development in Larnaca, Cyprus."] },
