@@ -4,7 +4,7 @@ const D = {
   photo: "images/profile.png",
   cover: "images/cover.jpg",
   bio: "Web design and development student at UCLan Cyprus. Born in Tanahun, Nepal. Building websites from Larnaca.",
-  email: "sabinkhanal809@gmail.com", // <- put your public email here
+  email: "sabinkhanal809@gmail.com",
   github: "https://github.com/sabinkhanal1",
   facebook: "https://facebook.com/sabin.khanal.737080",
   skills: ["HTML", "CSS", "JavaScript", "Git & GitHub", "Responsive design", "Customer service"],
@@ -12,16 +12,25 @@ const D = {
   education: [
     ["2025 – now", "BSc (Hons) Web Design and Development", "UCLan Cyprus, Larnaca"],
     ["2022", "Higher Secondary (+2)", "Satyawati Secondary School, Tanahun"],
-    ["2020", "Secondary Education (SEE)", "Satyawati Secondary School, Tanahun"],
+    ["2020", "Secondary Education (SEE)", "Satyawati Secondary School, Tanahun"]
   ],
   work: [
     ["20 months", "Admission Officer Assistant (intern)", "Time Academy Consultancy, Tanahun. Student admissions, enquiries and records."],
     ["18 months", "Waiter training", "SASAA INN Hotel, Damauli. Service standards and customer relations."],
-    ["1 month", "Mobile repair training", "SOS Vocational Training Center, Pokhara."],
+    ["1 month", "Mobile repair training", "SOS Vocational Training Center, Pokhara."]
   ],
-  // Stories: add { text, bg } slides. Add img: "photo.jpg" to show a picture.
+  projects: [
+    { id: "Pushpa", img: "", title: "Pushpa", text: "A gift website I built for someone I love.", live: "https://pushpagiftfromlover.khanalsabin1.com.np", color: "linear-gradient(135deg,#d3123a,#ff8aa5)" },
+    { id: "university", img: "", title: "University website", text: "A university website built with HTML and CSS.", color: "linear-gradient(135deg,#0f2a5c,#3d6fd1)" }
+  ],
+  // POSTS: your own posts on the home feed (newest first). img is optional, e.g. "images/posts/larnaca.jpg"
+  posts: [
+    { tag: "Study", text: "I started my BSc (Hons) in Web Design and Development at UCLan Cyprus in Larnaca.", img: "" },
+    { tag: "Hello", text: "Welcome to my new site. Look around: profile, vlog, stories, projects and contacts.", img: "" }
+  ],
+  // STORIES: cover = small card picture (optional). Each slide is "text" or { img: "images/stories/a.jpg", text: "caption" }
   stories: [
-    { title: "Tanahun to Larnaca", bg: "linear-gradient(160deg,#0f2a5c,#d3123a)", slides: ["I grew up in Tanahun, Nepal.", "Now I study web design and development in Larnaca, Cyprus."] },
+    { title: "Tanahun to Larnaca", cover: "", bg: "linear-gradient(160deg,#0f2a5c,#d3123a)", slides: ["I grew up in Tanahun, Nepal.", "Now I study web design and development in Larnaca, Cyprus."] },
     { title: "What I’m learning", bg: "linear-gradient(160deg,#0b7a75,#14213d)", slides: ["HTML, CSS and JavaScript at UCLan Cyprus.", "Every project goes on GitHub."] },
     { title: "Building Pushpa", bg: "linear-gradient(160deg,#d3123a,#7a0a24)", slides: ["Pushpa is a website I made as a gift.", "It’s the project I’m proudest of."] }
   ],
@@ -31,6 +40,8 @@ const D = {
 /* ================================ */
 
 const R = document.body.dataset.root, P = document.body.dataset.page;
+const u = p => /^(https?:|data:)/.test(p) ? p : R + p;
+const fill = (img, grad) => img ? `url(${u(img)}) center/cover` : grad;
 const repo = id => `https://github.com/sabinkhanal1/${id}`;
 const I = {
   home: '<path d="M12 3 2 12h3v8h5v-6h4v6h5v-8h3z"/>',
@@ -50,40 +61,40 @@ const tabs = () => nav.map(([h, t, k, i]) => `<a class="tab ${k === P ? "on" : "
 const sideRows = () => nav.slice(1).map(([h, t, k, i]) => `<a class="row" href="${R}${h}"><span class="ic">${ic(i)}</span>${t}</a>`).join("");
 const delay = (h, step = .08) => h.replace(/class="card/g, (m, o, s) => m).replace(/<(article|section) class="card([^"]*)"/g, (m, t, c) => { delay.n = (delay.n || 0) + 1; return `<${t} class="card${c}" style="--d:${(delay.n * step).toFixed(2)}s"`; });
 
-const storyBtns = () => `${D.stories.map((s, i) => `<button class="story" style="background:${s.bg};--d:${i * .08}s" data-s="${i}"><i style="background-image:url(${D.photo})"></i><span>${s.title}</span></button>`).join("")}`;
+const storyBtns = () => `${D.stories.map((s, i) => `<button class="story" style="background:${fill(s.cover, s.bg)};--d:${i * .08}s" data-s="${i}"><i style="background-image:url(${u(D.photo)})"></i><span>${s.title}</span></button>`).join("")}`;
 const projActs = p => `<div class="acts"><a class="act" href="${repo(p.id)}" target="_blank" rel="noopener">${ic("code")}View code</a>${p.live ? `<a class="act" href="${p.live}" target="_blank" rel="noopener">${ic("globe")}Live site</a>` : ""}</div>`;
-const post = (tag, text, p) => `<article class="card post"><header><img class="av" src="${D.photo}" alt=""><div><b>${D.name}</b><span class="mute small">${tag}</span></div></header><p>${text}</p>${p ? `<div class="pic" style="background:${p.color}"><span style="position:relative">${p.title}</span></div>${projActs(p)}` : ""}</article>`;
+const post = (tag, text, p, img) => `<article class="card post"><header><img class="av" src="${u(D.photo)}" alt=""><div><b>${D.name}</b><span class="mute small">${tag}</span></div></header><p>${text}</p>${img ? `<img class="pimg" src="${u(img)}" alt="" loading="lazy">` : ""}${p ? `<div class="pic" style="background:${fill(p.img, p.color)}"><span style="position:relative">${p.title}</span></div>${projActs(p)}` : ""}</article>`;
 const facts = () => `<div class="facts"><p>${ic("school")}Studies at <b>UCLan Cyprus</b></p><p>${ic("pin")}Lives in <b>Larnaca, Cyprus</b></p><p>${ic("pin")}From <b>Tanahun, Nepal</b></p><p>${ic("globe")}${D.languages.join(", ")}</p></div>`;
 const about = () => `<section class="card"><h2>Education</h2><div class="tl">${D.education.map(e => `<div><h3>${e[1]}</h3><span class="mute small">${e[0]} · ${e[2]}</span></div>`).join("")}</div></section><section class="card"><h2>Experience</h2><div class="tl">${D.work.map(e => `<div><h3>${e[1]}</h3><span class="mute small">${e[0]}</span><p class="small">${e[2]}</p></div>`).join("")}</div></section><section class="card"><h2>Skills</h2><div class="chips">${D.skills.map(s => `<span class="chip">${s}</span>`).join("")}</div></section>`;
-const projCards = () => D.projects.map(p => `<article class="card mp"><div class="pic" style="background:${p.color}"><span style="position:relative">${p.title}</span></div><div class="in"><p>${p.text}</p></div>${projActs(p)}</article>`).join("");
-const feed = () => D.projects.slice(0, 4).map(p => post("New project", p.text, p)).join("");
+const projCards = () => D.projects.map(p => `<article class="card mp"><div class="pic" style="background:${fill(p.img, p.color)}"><span style="position:relative">${p.title}</span></div><div class="in"><p>${p.text}</p></div>${projActs(p)}</article>`).join("");
+const feed = () => D.posts.map(x => post(x.tag, x.text, null, x.img)).join("") + D.projects.slice(0, 4).map(p => post("New project", p.text, p)).join("");
 
 const pages = {
   index: () => `<section class="card"><div class="strip" style="margin:-4px 0">${storyBtns()}</div></section>
-    <section class="card"><div class="comp"><img class="av" src="${D.photo}" alt=""><a class="fake" href="${R}contacts/">Say hello to Sabin…</a></div><div class="acts"><a class="act" href="${R}vlog/"><span style="color:#f3425f;display:flex">${ic("vlog")}</span>Vlog</a><a class="act" href="${R}stories/"><span style="color:#45bd62;display:flex">${ic("stories")}</span>Stories</a><a class="act" href="${R}projects/"><span style="color:#f7b928;display:flex">${ic("projects")}</span>Projects</a></div></section>
-    ${post("Study", "I started my BSc (Hons) in Web Design and Development at UCLan Cyprus in Larnaca.")}${feed()}${post("Hello", "Welcome to my new site. Look around: profile, vlog, stories, projects and contacts.")}`,
+    <section class="card"><div class="comp"><img class="av" src="${u(D.photo)}" alt=""><a class="fake" href="${R}contacts/">Say hello to Sabin…</a></div><div class="acts"><a class="act" href="${R}vlog/"><span style="color:#f3425f;display:flex">${ic("vlog")}</span>Vlog</a><a class="act" href="${R}stories/"><span style="color:#45bd62;display:flex">${ic("stories")}</span>Stories</a><a class="act" href="${R}projects/"><span style="color:#f7b928;display:flex">${ic("projects")}</span>Projects</a></div></section>
+    ${feed()}`,
 
   profile: () => "",
   vlog: () => D.vlogs.length ? `<div class="grid two">${D.vlogs.map(v => `<article class="card vid"><iframe src="https://www.youtube-nocookie.com/embed/${v.yt}" title="${v.title}" loading="lazy" allowfullscreen></iframe><div><h3>${v.title}</h3><p class="mute small">${v.text || ""}</p></div></article>`).join("")}</div>`
     : `<section class="card empty"><h2>No videos yet</h2><p class="mute">Upload a video to YouTube, then add its ID to <code>vlogs</code> in <code>js/app.js</code>. It will appear here.</p></section>`,
   stories: () => `<section class="card"><h2>Stories</h2><p class="mute small" style="margin-bottom:12px">Tap a story to open it. Tap the screen to go to the next one.</p><div class="strip" style="flex-wrap:wrap">${storyBtns()}</div></section>`,
   projects: () => `<div class="grid three">${projCards()}</div>`,
-  contacts: () => `<div class="grid two"><section class="card"><div class="chatH"><div class="dot"><img class="av" src="${D.photo}" alt=""></div><div><b>${D.name}</b><div class="mute small">Active now</div></div></div><div class="chat" id="chat"><div class="bub">Hi! I’m Sabin. What would you like to build?</div></div><input class="inp" id="nm" placeholder="Your name" autocomplete="name"><textarea class="inp" id="msg" rows="3" placeholder="Write your message"></textarea><button class="btn" id="send">Send message</button><p class="mute small" style="margin-top:8px">Sending opens your email app with the message ready.</p></section>
+  contacts: () => `<div class="grid two"><section class="card"><div class="chatH"><div class="dot"><img class="av" src="${u(D.photo)}" alt=""></div><div><b>${D.name}</b><div class="mute small">Active now</div></div></div><div class="chat" id="chat"><div class="bub">Hi! I’m Sabin. What would you like to build?</div></div><input class="inp" id="nm" placeholder="Your name" autocomplete="name"><textarea class="inp" id="msg" rows="3" placeholder="Write your message"></textarea><button class="btn" id="send">Send message</button><p class="mute small" style="margin-top:8px">Sending opens your email app with the message ready.</p></section>
     <section class="card"><h2>Contacts</h2><a class="row" href="mailto:${D.email}"><span class="ic">${ic("contacts")}</span><div>Email<small>${D.email}</small></div></a><a class="row" href="${D.github}" target="_blank" rel="noopener"><span class="ic">${ic("code")}</span><div>GitHub<small>sabinkhanal1</small></div></a><a class="row" href="${D.facebook}" target="_blank" rel="noopener"><span class="ic">${ic("globe")}</span><div>Facebook<small>sabin.khanal.737080</small></div></a></section></div>`
 };
 
 function profile() {
-  const head = `<div class="pcover"><div class="card" style="padding:0;border-radius:0 0 12px 12px"><div class="cover"></div><div class="ph"><img class="big" src="${D.photo}" alt="${D.name}"><div class="t"><h1>${D.name}</h1><p class="mute">${D.bio}</p></div><div class="chips"><a class="btn" href="${R}contacts/">${ic("contacts")}Message</a><a class="btn alt" href="${D.github}" target="_blank" rel="noopener">GitHub</a><a class="btn alt" href="${D.facebook}" target="_blank" rel="noopener">Facebook</a></div></div><div class="tabs">${["Posts", "About", "Projects"].map((t, i) => `<button class="tb ${i ? "" : "on"}" data-t="${i}">${t}</button>`).join("")}</div></div></div>`;
-  const body = t => t === 0 ? `<div class="pbody"><aside><section class="card"><h2>Intro</h2><p style="margin-bottom:8px">${D.bio}</p>${facts()}</section></aside><div class="col" style="margin:0">${post("Study", "I started my BSc (Hons) in Web Design and Development at UCLan Cyprus.")}${feed()}</div></div>`
+  const head = `<div class="pcover"><div class="card" style="padding:0;border-radius:0 0 12px 12px"><div class="cover" ${D.cover ? `style="background:url(${u(D.cover)}) center/cover,linear-gradient(120deg,#0866ff,#7b3fe4 55%,#d3123a)"` : ""}></div><div class="ph"><img class="big" src="${u(D.photo)}" alt="${D.name}"><div class="t"><h1>${D.name}</h1><p class="mute">${D.bio}</p></div><div class="chips"><a class="btn" href="${R}contacts/">${ic("contacts")}Message</a><a class="btn alt" href="${D.github}" target="_blank" rel="noopener">GitHub</a><a class="btn alt" href="${D.facebook}" target="_blank" rel="noopener">Facebook</a></div></div><div class="tabs">${["Posts", "About", "Projects"].map((t, i) => `<button class="tb ${i ? "" : "on"}" data-t="${i}">${t}</button>`).join("")}</div></div></div>`;
+  const body = t => t === 0 ? `<div class="pbody"><aside><section class="card"><h2>Intro</h2><p style="margin-bottom:8px">${D.bio}</p>${facts()}</section></aside><div class="col" style="margin:0">${feed()}</div></div>`
     : t === 1 ? `<div class="pbody one"><div class="col">${about()}</div></div>` : `<div class="pbody one"><div class="grid three" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr))">${projCards()}</div></div>`;
   return { head, body };
 }
 
 function mount() {
   const el = document.getElementById("app");
-  el.innerHTML = `<header class="top"><a class="logo" href="${R}" aria-label="Home">S</a><nav aria-label="Main">${tabs()}</nav><div class="rt"><a class="rb" href="${R}contacts/" aria-label="Messages">${ic("contacts")}</a><a href="${R}profile/" aria-label="Profile"><img class="av" src="${D.photo}" alt=""></a></div></header><div class="wrap ${P === "index" ? "three" : ""}" id="wrap"></div>`;
+  el.innerHTML = `<header class="top"><a class="logo" href="${R}" aria-label="Home">S</a><nav aria-label="Main">${tabs()}</nav><div class="rt"><a class="rb" href="${R}contacts/" aria-label="Messages">${ic("contacts")}</a><a href="${R}profile/" aria-label="Profile"><img class="av" src="${u(D.photo)}" alt=""></a></div></header><div class="wrap ${P === "index" ? "three" : ""}" id="wrap"></div>`;
   const w = document.getElementById("wrap");
-  const side = P === "index" ? `<aside class="side"><a class="row" href="${R}profile/"><img class="av" src="${D.photo}" alt="">${D.name}</a>${sideRows()}</aside>` : "";
+  const side = P === "index" ? `<aside class="side"><a class="row" href="${R}profile/"><img class="av" src="${u(D.photo)}" alt="">${D.name}</a>${sideRows()}</aside>` : "";
   const right = P === "index" ? `<aside class="side"><div class="card" style="animation:none"><h2>Available for work</h2><p class="mute small" style="margin-bottom:10px">Websites for schools, clinics and small businesses.</p><a class="btn" href="${R}contacts/">Hire me</a></div><h3 class="mute" style="padding:10px 8px 2px">Contacts</h3><a class="row" style="position:relative" href="${D.github}" target="_blank" rel="noopener"><span class="ic">${ic("code")}</span>GitHub</a><a class="row" href="${D.facebook}" target="_blank" rel="noopener"><span class="ic">${ic("globe")}</span>Facebook</a></aside>` : "";
   w.innerHTML = `${side}<main class="col">${P === "profile" ? "" : `<div class="card sk"></div><div class="card sk"></div>`}</main>${right}`;
   const main = w.querySelector("main");
@@ -108,7 +119,8 @@ function openStory(i) {
   function next() {
     clearTimeout(timer);
     if (n >= s.slides.length) return i + 1 < D.stories.length ? (close(), openStory(i + 1)) : close();
-    ov.innerHTML = `<div class="sv" style="background:${s.bg}"><div class="bars">${s.slides.map((_, k) => `<span><i style="width:${k < n ? 100 : 0}%;${k === n ? "transition:width 4s linear" : ""}"></i></span>`).join("")}</div><div class="sh"><img class="av" src="${D.photo}" alt="">${D.name}</div><button class="x" aria-label="Close">×</button>${s.slides[n]}</div>`;
+    const sl = s.slides[n], t = typeof sl === "string" ? { text: sl } : sl;
+    ov.innerHTML = `<div class="sv" style="background:${fill(t.img, s.bg)};align-items:${t.img ? "flex-end" : "center"}"><div class="bars">${s.slides.map((_, k) => `<span><i style="width:${k < n ? 100 : 0}%;${k === n ? "transition:width 4s linear" : ""}"></i></span>`).join("")}</div><div class="sh"><img class="av" src="${u(D.photo)}" alt="">${D.name}</div><button class="x" aria-label="Close">×</button><span style="text-shadow:0 2px 10px #000a">${t.text || ""}</span></div>`;
     ov.querySelector(".x").onclick = e => { e.stopPropagation(); close(); };
     ov.querySelector(".sv").onclick = next;
     requestAnimationFrame(() => requestAnimationFrame(() => { const b = ov.querySelectorAll(".bars i")[n]; if (b) b.style.width = "100%"; }));
